@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>try json</title>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="application/javascript">
+        var ipdata = {
+            "name": "foo_name",
+            "createTime": "1232131",
+            "ipCount": {
+                "192.168.1.1": 12,
+                "172.15.1.125": 56,
+                '172.16.123.18': 10000,
+                '114.114.114.114': 4
+            }
+        };
+        function addip() {
+            $.ajax({
+                url: "add.php",
+                type: "post",
+                dataType: "json",
+                data: {data: JSON.stringify(ipdata)},
+                success: function (data) {
+                    document.write('success');
+                },
+                error: function () {
+                    document.write('failed!');
+                }
+            })
+        }
+
+        var query_param = {
+            'name': 'foo_name',
+            //指定范围,这里查询全部范围
+            'range': {
+                'start': 0,
+                'stop': -1
+            },
+            //带不带分数的查询
+            withScores: true
+        };
+
+        function querybyname() {
+            $.ajax({
+                url: 'query.php',
+                type: 'post',
+                dataType: 'json',
+                data: {data: JSON.stringify(query_param)},
+                success: function (data) {
+                    var html = 'name:' + data['name'] +
+                            '<br>create time:' + data['createTime'] ;
+//                    document.write(html);
+                    $('ol').append('<li>' + html + '</li>');
+                    var ipCount = data['ipCount'];
+                    for (var ip in ipCount) {
+                        $('ol').append('<li>ip:' + ip + ' rank:' + ipCount[ip] + '</li>');
+                    }
+                },
+                error: function (data) {
+                    document.write('query failed!');
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+hello
+<br>
+<button onclick="addip()" value="">try_add</button>
+<br>
+<button onclick="querybyname()">try_query</button>
+<div id="ip_list">
+    <ol>
+        <li>ip list</li>
+    </ol>
+</div>
+</body>
+</html>
