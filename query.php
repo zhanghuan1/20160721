@@ -17,5 +17,5 @@ $ipCount = $querClient->queryIPRankByName($queryPara->name, $queryPara->range->s
 $res = new IPSequence();
 $res->name = $queryPara->name;
 $res->createTime = null;
-$res->ipCount = $ipCount;
+$res->Rank = $ipCount;
 echo json_encode($res);

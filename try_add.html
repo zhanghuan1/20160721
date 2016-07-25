@@ -7,7 +7,7 @@
     <script type="application/javascript">
         var ipdata = {
             "name": "foo_name",
-            "createTime": "1232131",
+            "createTime": '',
             "ipCount": {
                 "192.168.1.1": 12,
                 "172.15.1.125": 56,
@@ -15,6 +15,7 @@
                 '114.114.114.114': 4
             }
         };
+        ipdata['createTime']=Date.now();
         function addip() {
             $.ajax({
                 url: "add.php",

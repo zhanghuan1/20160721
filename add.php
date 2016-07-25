@@ -3,7 +3,7 @@ header('Content-type:text/json');
 require_once('model/IPSequence.php');
 require_once('services/IPQuery.php');
 $ipData = new IPSequence();
-$ipData = json_decode($_POST['data']);
+$ipData->set(json_decode($_POST['data']));
 $queryClient = new IPQuery();
 try {
     $queryClient->addIPSequence($ipData);
