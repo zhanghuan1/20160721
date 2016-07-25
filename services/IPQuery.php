@@ -84,6 +84,18 @@ class IPQuery
         $this->result = $this->redisConn->zRevRange($ipName, $start, $stop, $withScores);
         return $this->result;
     }
+    //通过createTime拿到对应的loginIp
+    public function queryloginIpByTime($createTime,$loginCounter,$start=0,$stop=-1,$withScores=true){
+        $this->redisConn->select(TimeDB);
+        $this->result = $this->redisConn->zRevRange($loginCounter,$start,$stop,$withScores);
+        //遍历名字和创建时间，返回loginIp
+        foreach ($this->result as $key => $value) {
+            if($key == $createTime){
+                return $value;
+            }
+        }
+        return null;
+    }
 
     public function queryIPByTimestamp()
     {
